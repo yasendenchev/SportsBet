@@ -12,10 +12,34 @@ namespace SportsBet.Services
 {
     public class EventService : IEventService
     {
+        private const string argNullMessage = "cannot be null.";
         private readonly IEfRepository<Event> eventRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IDateTimeProvider dateTimeProvider;
         private int rowsCount;
+
+        public EventService(IEfRepository<Event> eventRepository, IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
+        {
+            if (eventRepository == null)
+            {
+                throw new ArgumentNullException(String.Format("EventRepository" + argNullMessage));
+            }
+
+            if (unitOfWork == null)
+            {
+                throw new ArgumentNullException(String.Format("UnitOfWork" + argNullMessage));
+            }
+
+            if (dateTimeProvider == null)
+            {
+                throw new ArgumentNullException(String.Format("DateTimeProvider" + argNullMessage));
+            }
+
+            this.eventRepository = eventRepository;
+            this.unitOfWork = unitOfWork;
+            this.dateTimeProvider = dateTimeProvider;
+            this.rowsCount = GetRowsCount();
+        }
 
         public void Add(string name, double oddsForFirstTeam, double oddsForDraw, double oddsForSecondTeam, string startDate)
         {
@@ -34,7 +58,7 @@ namespace SportsBet.Services
             if (ev != null)
             {
                 ev.IsDeleted = true;
-                ev.DeletedOn = this.dateTimeProvider.Now();
+                ev.DeletedOn = dateDeleted;
 
                 this.eventRepository.Update(ev);
                 this.unitOfWork.Commit();
@@ -59,11 +83,14 @@ namespace SportsBet.Services
             ev.OddsForDraw = oddsForDraw;
             ev.OddsForSecondTeam = oddsForSecondTeam;
             ev.StartDate = DateTime.Parse(startDate);
+
+            this.eventRepository.Update(ev);
+            this.unitOfWork.Commit();
         }
 
-        private void SetRowsCount()
+        private int GetRowsCount()
         {
-            this.rowsCount = eventRepository.All.Count();
+            return eventRepository.All.Count();
         }
     }
 }

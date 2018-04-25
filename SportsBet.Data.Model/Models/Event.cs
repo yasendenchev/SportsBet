@@ -1,6 +1,7 @@
 ﻿using SportsBet.Data.Model.Abstracts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,10 @@ namespace SportsBet.Data.Model
 {
     public class Event : DataModel
     {
+        public Event()
+        {
+        }
+
         public Event(int eventID,
                      string name,
                      double oddsForFirstTeam,
@@ -33,6 +38,7 @@ namespace SportsBet.Data.Model
 
         public double OddsForSecondTeam { get; set; }
 
+        [Column(TypeName = "datetime2")]
         public DateTime StartDate { get; set; }
     }
 }

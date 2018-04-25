@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SportsBet.Data.UnitOfWork
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly SportsBetContext context;
 
