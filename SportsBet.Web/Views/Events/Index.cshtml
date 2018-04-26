@@ -1,10 +1,11 @@
-﻿@model IEnumerable<SportsBet.Models.EventViewModel>
+﻿@model ICollection<SportsBet.Models.EventViewModel>
 <html>
 <head>
-<script type="text/javascript" src="table_script.js"></script>
+    <script type="text/javascript" src="table_script.js"></script>
+    
 </head>
 <body>
-    <table>
+    <table >
         <tr>
             <th>EventName</th>
             <th>OddsForFirstTeam</th>
@@ -12,19 +13,22 @@
             <th>OddsForSecondTeam</th>
             <th>EventStartDate</th>
         </tr>
-        @if (!Model.ElementAt(0).IsInEditMode)
+        @if (Model.ElementAt(1).IsInEditMode == false)
         {
             foreach (var ev in Model)
             {
-        <tr>
-            <td>@ev.Name</td>
-            <td>@ev.OddsForFirstTeam</td>
-            <td>@ev.OddsForDraw</td>
-            <td>@ev.OddsForSecondTeam</td>
-            <td>@ev.StartDate</td>
-        </tr>
+                <tr  class="viewableRow">
+                    <td >@ev.Name</td>
+                        <td class="viewableCol">@ev.OddsForFirstTeam</td>
+                        <td class="viewableCol">@ev.OddsForDraw</td>
+                        <td class="viewableCol">@ev.OddsForSecondTeam</td>
+                        <td class="viewableCol">@ev.StartDate</td>
+                        <td class="viewableCol"></td>
+                </tr>
             }
+            <button><li>@Html.ActionLink("Edit", "", "Events")</li></button>
         }
+
     </table>
 
 </body>

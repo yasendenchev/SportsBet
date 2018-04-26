@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using SportsBet.Models;
 using SportsBet.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -26,12 +28,17 @@ namespace SportsBet.Web.Controllers
             this.mapper = mapper;
         }
         // GET: Events
-        public ActionResult Index()
+        public ActionResult View()
         {
 
             var events = this.eventService.GetAll();
 
-            return this.View(events);
+            var model = events.ProjectTo<EventViewModel>().ToList();
+
+
+            return this.View(model);
         }
+
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SportsBet.App_Start;
 using SportsBet.Data;
+using SportsBet.Data.Migrations;
 //using SportsBet.Data.Migrations;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,14 @@ namespace SportsBet
                 db.Database.Initialize(false);
             }
 
-            //var migrator = new DbMigrator(new Configuration());
+            var migrator = new DbMigrator(new Configuration());
 
-            //if (migrator.GetPendingMigrations().Any())
-            //{
-            //    migrator.Update();
-            //}
+            if (migrator.GetPendingMigrations().Any())
+            {
+                migrator.Update();
+            }
 
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<SportsBetContext, Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<SportsBetContext, Configuration>());
 
 
             AreaRegistration.RegisterAllAreas();
