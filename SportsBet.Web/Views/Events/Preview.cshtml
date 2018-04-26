@@ -1,0 +1,36 @@
+﻿@model ICollection<SportsBet.Models.EventViewModel>
+<html>
+<head>
+    <script type="text/javascript" src="table_script.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm("EditView", "Events"))
+        {
+            <button type="submit" class="btn-primary editButton">Edit</button>
+        }
+        <table>
+            <tr>
+                <th align="center" valign="middle"><p>EventName</p></th>
+                <th align="center" valign="middle"><p>OddsForFirstTeam</p></th>
+                <th align="center" valign="middle"><p>OddsForDraw</p></th>
+                <th align="center" valign="middle"><p>OddsForSecondTeam</p></th>
+                <th align="center" valign="middle"><p>EventStartDate</p></th>
+            </tr>
+
+            @foreach (var ev in Model)
+            {
+                <tr class="@(@ev.StartHasPassed ? "passedEvent" : "previewRow")">
+                    <td align="center" valign="middle" class="eventName"><p> @ev.Name </p></td>
+                    <td align="center" valign="middle" class="eventOddsForFirstTeam"><p> @ev.OddsForFirstTeam </p></td>
+                    <td align="center" valign="middle" class="eventOddsForDraw"><p> @ev.OddsForDraw </p></td>
+                    <td align="center" valign="middle" class="eventOddsForSecondTeam"><p> @ev.OddsForSecondTeam </p></td>
+                    <td align="center" valign="middle" class="eventStartDate"><p> @ev.StartDate</p></td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</body>
+</html>

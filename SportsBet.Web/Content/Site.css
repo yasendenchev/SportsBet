@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: antiquewhite
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -23,6 +24,32 @@ textarea {
     max-width: 280px;
 }
 
-.viewableCol {
-    background-color: red;
+table, tr, th, td {
+    border: 1px solid black;
+    /*margin: 10px;*/
+}
+
+
+.previewRow:nth-child(odd) {
+    background-color: aliceblue;
+}
+
+.previewRow:nth-child(even) {
+    background-color: honeydew;
+}
+
+.passedEvent {
+    background-color: lightsalmon;
+}
+
+th, td {
+    /*margin: 5px;*/
+}
+
+td{
+    align-content: center;
+}
+
+.editButton {
+    float:right;
 }

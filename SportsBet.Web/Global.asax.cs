@@ -26,12 +26,12 @@ namespace SportsBet
                 db.Database.Initialize(false);
             }
 
-            var migrator = new DbMigrator(new Configuration());
+            //var migrator = new DbMigrator(new Configuration());
 
-            if (migrator.GetPendingMigrations().Any())
-            {
-                migrator.Update();
-            }
+            //if (migrator.GetPendingMigrations().Any())
+            //{
+            //    migrator.Update();
+            //}
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<SportsBetContext, Configuration>());
 
@@ -43,6 +43,13 @@ namespace SportsBet
 
             var mapper = new AutoMapperConfig();
             mapper.Execute(Assembly.GetExecutingAssembly());
+
+
+        }
+
+        protected void Session_Start()
+        {
+            Session["Events"] = null;
         }
     }
 }

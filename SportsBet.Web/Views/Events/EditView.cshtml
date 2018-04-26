@@ -1,0 +1,136 @@
+﻿@model IEnumerable<SportsBet.Models.EventViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<script src="~/Scripts/Custom.js"></script>
+<div id=" grid">
+    @{
+        //var gender = Model.Select(app => app.);
+        //var gender1 = from name in gender.First()
+        //              select new SelectListItem
+        //              {
+        //                  Value = name,
+        //                  Text = name
+        //              };
+        var gridview = new WebGrid(source: Model, rowsPerPage: 30);
+    }
+
+    @gridview.GetHtml(tableStyle: "webGrid", headerStyle: "header", alternatingRowStyle: "altColor",
+        columns:
+                gridview.Columns(
+                    gridview.Column("", style: "button",
+                        format:
+                    @<text>
+                        <button class="edit-case read" id="@item.Id">Edit</button>
+                        <button class="delete-case read" id="@item.Id">Delete</button>
+                        <button class="update-case edit" id="@item.Id">Update</button>
+                        <button class="cancel-case edit" id="@item.Id">Cancel</button>
+                    </text>),
+                            //gridview.Column("Name"),
+                            //gridview.Column("OddsFirstTeam"),
+                            gridview.Column("Name",
+                                format:
+                            @<text>
+                                <span id="name" class="read">@item.Name</span>
+                                @Html.TextBox("Name", (string)item.Name, new { @class = "edit" })
+                            </text>)
+                                        ))
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@model ICollection<SportsBet.Models.EventViewModel>
+    <html>
+    <head>
+        <script type="text/javascript" src="table_script.js"></script>
+
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>EventId</th>
+                <th>EventName</th>
+                <th>OddsForFirstTeam</th>
+                <th>OddsForDraw</th>
+                <th>OddsForSecondTeam</th>
+                <th>EventStartDate</th>
+            </tr>
+            @using (Html.BeginForm("Update", "Events", FormMethod.Post))
+            {
+                for (int i = 0; i < Model.Count; i++)
+                {
+
+                    <tr class="editableRow">
+                        <td>
+                            <form>
+                                <table>
+                                    <tr>
+                                        <td>@Html.TextBoxFor(model => model.ElementAt(i).Name)</td>
+                                        <td>@ev.EventID</td>
+                                            <td>@Html.EditorFor(model => model.., new { htmlAttributes = new { @class = "form-control" } })</td>
+                                            <td contenteditable='true'>@ev.OddsForFirstTeam</td>
+                                            <td contenteditable='true'>@ev.OddsForDraw</td>
+                                            <td contenteditable='true'>@ev.OddsForSecondTeam</td>
+                                            <td contenteditable='true'>@ev.StartDate</td>
+                                            <td>delete</td>
+                                            <td>save</td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+
+
+                    @Html.TextBoxFor(model => model.ElementAt(1).Name)
+                     @Html.Hidden("Emplname", Model.Empname)
+
+                    @Html.TextBoxFor(model => model.EmpId)
+
+                        @Html.LabelFor(model => model.EmpDepartment)
+                        @Html.TextBoxFor(model => model.EmpDepartment)
+                     @Html.Hidden("Empldepart", Model.EmpDepartment)
+                }
+            }
+        </table>
+
+
+
+        @Html.LabelFor(model => model.Empname)
+            @Html.TextBoxFor(model => model.Empname)
+             @Html.Hidden("Emplname", Model.Empname)
+
+        @Html.LabelFor(model => model.EmpId)
+            @Html.TextBoxFor(model => model.EmpId)
+            @Html.Hidden("Emplid", Model.EmpId)
+
+
+        @Html.TextBoxFor(model => model.EmpDepartment)
+         @Html.Hidden("Empldepart", Model.EmpDepartment)
+
+        <input type="button" id="submitId" value="submit" />
+
+
+            }
+
+    </body>
+    </html>*@
