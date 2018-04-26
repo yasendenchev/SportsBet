@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SportsBet.Services.Providers
 {
-    class DateTimeProvider : IDateTimeProvider
+    public class DateTimeProvider : IDateTimeProvider
     {
         public DateTime? Now()
         {

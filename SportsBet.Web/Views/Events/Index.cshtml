@@ -12,6 +12,19 @@
             <th>OddsForSecondTeam</th>
             <th>EventStartDate</th>
         </tr>
+        @if (!Model.ElementAt(0).IsInEditMode)
+        {
+            foreach (var ev in Model)
+            {
+        <tr>
+            <td>@ev.Name</td>
+            <td>@ev.OddsForFirstTeam</td>
+            <td>@ev.OddsForDraw</td>
+            <td>@ev.OddsForSecondTeam</td>
+            <td>@ev.StartDate</td>
+        </tr>
+            }
+        }
     </table>
 
 </body>
