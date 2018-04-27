@@ -1,36 +1,56 @@
-﻿@model ICollection<SportsBet.Models.EventViewModel>
-<html>
-<head>
-    <script type="text/javascript" src="table_script.js"></script>
+﻿@model IEnumerable<SportsBet.Models.EventViewModel>
+@{
+    ViewBag.Title = "Index";
+}
 
-</head>
-<body>
-    <div class="container">
-        @using (Html.BeginForm("EditView", "Events"))
-        {
-            <button type="submit" class="btn-primary editButton">Edit</button>
-        }
-        <table>
-            <tr>
-                <th align="center" valign="middle"><p>EventName</p></th>
-                <th align="center" valign="middle"><p>OddsForFirstTeam</p></th>
-                <th align="center" valign="middle"><p>OddsForDraw</p></th>
-                <th align="center" valign="middle"><p>OddsForSecondTeam</p></th>
-                <th align="center" valign="middle"><p>EventStartDate</p></th>
-            </tr>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/scripts")
 
-            @foreach (var ev in Model)
-            {
-                <tr class="@(@ev.StartHasPassed ? "passedEvent" : "previewRow")">
-                    <td align="center" valign="middle" class="eventName"><p> @ev.Name </p></td>
-                    <td align="center" valign="middle" class="eventOddsForFirstTeam"><p> @ev.OddsForFirstTeam </p></td>
-                    <td align="center" valign="middle" class="eventOddsForDraw"><p> @ev.OddsForDraw </p></td>
-                    <td align="center" valign="middle" class="eventOddsForSecondTeam"><p> @ev.OddsForSecondTeam </p></td>
-                    <td align="center" valign="middle" class="eventStartDate"><p> @ev.StartDate</p></td>
-                </tr>
-            }
-        </table>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OddsForFirstTeam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OddsForDraw)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OddsForSecondTeam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+    </tr>
 
-    </div>
-</body>
-</html>
+    @foreach (var item in Model)
+    {
+        <tr id="@item.EventID" class="@(@item.StartHasPassed ? "passedEvent" : "previewRow")">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="odd @item.EventID">
+                @Html.DisplayFor(modelItem => item.OddsForFirstTeam)
+            </td>
+            <td class="odd @item.EventID">
+                @Html.DisplayFor(modelItem => item.OddsForDraw)
+            </td>
+            <td class="odd @item.EventID">
+                @Html.DisplayFor(modelItem => item.OddsForSecondTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate, new { htmlAttributes = new { placeholder = "YYYY-MM-DD hh-mm-ss" } })
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Add", "Create")
+</p>

@@ -56,5 +56,6 @@ namespace SportsBet.Data
         {
             return new SportsBetContext();
         }
+
     }
 }

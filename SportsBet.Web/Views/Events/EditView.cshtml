@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SportsBet.Models.EventViewModel>
+﻿@*@model IEnumerable<SportsBet.Data.Model.Event>
 @{
     ViewBag.Title = "Index";
 }
@@ -18,28 +18,71 @@
         //                  Text = name
         //              };
         var gridview = new WebGrid(source: Model, rowsPerPage: 30);
-    }
 
-    @gridview.GetHtml(tableStyle: "webGrid", headerStyle: "header", alternatingRowStyle: "altColor",
-        columns:
-                gridview.Columns(
-                    gridview.Column("", style: "button",
-                        format:
+
+        gridview.GetHtml(tableStyle: "webGrid", headerStyle: "header", alternatingRowStyle: "altColor",
+            columns:
+                    gridview.Columns(
+                        gridview.Column("", style: "button",
+                            format:
                     @<text>
                         <button class="edit-case read" id="@item.Id">Edit</button>
                         <button class="delete-case read" id="@item.Id">Delete</button>
                         <button class="update-case edit" id="@item.Id">Update</button>
                         <button class="cancel-case edit" id="@item.Id">Cancel</button>
                     </text>),
-                            //gridview.Column("Name"),
-                            //gridview.Column("OddsFirstTeam"),
-                            gridview.Column("Name",
-                                format:
+                                    //gridview.Column("Name"),
+                                    //gridview.Column("OddsFirstTeam"),
+                                    gridview.Column("Namae",
+                                        format:
                             @<text>
                                 <span id="name" class="read">@item.Name</span>
                                 @Html.TextBox("Name", (string)item.Name, new { @class = "edit" })
-                            </text>)
-                                        ))
+                            </text>)));
+                                        }
+
+
+
+    @*<table>
+        <tbody data-bind="foreach: Farms">
+            <tr>
+                <td class="col-lg-1">
+                    <input data-bind="checked: IsSelected, click:$root.RefreshWarning" type="checkbox" />
+                </td>
+                <td class="col-lg-3" data-bind="text: TextCode"></td>
+                <td class="col-lg-3" data-bind="text: FarmName"></td>
+                <td class="col-lg-2" data-bind="text: IdentificationCode"></td>
+                <td class="col-lg-3" data-bind="text: Location"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        var model = @Html.Raw(Json.Encode(Model));
+        console.log(model);
+        function Farm(ID, EventId, Name, OddsForFirstTeam, OddsForDraw, OddsForSecondTeam, StartDate) {
+            var self = this;
+            self.II = ko.observable(ID);
+            self.Location = ko.observable(Location);
+            self.IdentificationCode = ko.observable(IdentificationCode);
+            self.TextCode = ko.observable(TextCode);
+            self.FarmName = ko.observable(FarmName);
+            self.FarmTypeName = ko.observable(FarmTypeName);
+            self.IsSelected = ko.observable(false);
+            self.FarmRelationTypeName = ko.observable();
+            self.FarmRelationType = ko.observable();
+            self.PredecessorFarmID = ko.observable();
+            self.SuccessorFarmID = ko.observable();
+        }
+
+    </script>
+
+
+
+
+
+    $.post(“”, farms)*@
+
 </div>
 
 
@@ -133,4 +176,4 @@
             }
 
     </body>
-    </html>*@
+    </html>*@*@

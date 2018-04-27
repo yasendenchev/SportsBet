@@ -33,8 +33,6 @@ namespace SportsBet.Models
 
         public bool StartHasPassed { get; set; }
 
-        public bool IsInEditMode { get; set; }
-
         [Display(Name = "EventId")]
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
@@ -47,8 +45,8 @@ namespace SportsBet.Models
                 .ForMember(eventViewModel => eventViewModel.OddsForDraw, cfg => cfg.MapFrom(ev => ev.OddsForDraw))
                 .ForMember(eventViewModel => eventViewModel.OddsForSecondTeam, cfg => cfg.MapFrom(ev => ev.OddsForSecondTeam))
                 .ForMember(eventViewModel => eventViewModel.StartDate, cfg => cfg.MapFrom(ev => ev.StartDate))
-                .ForMember(eventViewModel => eventViewModel.StartHasPassed, cfg => cfg.MapFrom(ev => DateTime.Compare(DateTime.Now, ev.StartDate) > 0))
-                .ForMember(EventViewModel => EventViewModel.IsInEditMode, cfg => cfg.MapFrom(ev => false));
+                .ForMember(eventViewModel => eventViewModel.StartHasPassed, cfg => cfg.MapFrom(ev => DateTime.Compare(DateTime.Now, ev.StartDate) > 0));
+
         }
     }
 }

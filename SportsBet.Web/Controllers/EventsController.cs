@@ -1,13 +1,16 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using SportsBet.Data.Model;
-using SportsBet.Models;
-using SportsBet.Services.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using SportsBet.Data;
+using SportsBet.Models;
+using SportsBet.Services.Contracts;
 
 namespace SportsBet.Web.Controllers
 {
@@ -28,58 +31,92 @@ namespace SportsBet.Web.Controllers
             this.eventService = eventService;
             this.mapper = mapper;
         }
+
         // GET: Events
         public ActionResult Preview()
         {
-
             var events = this.eventService.GetAll();
 
-            var model = events.ProjectTo<EventViewModel>().ToList();
+            var models = events.ProjectTo<EventViewModel>().ToList();
 
-            return this.View(model);
+            return View(models);
         }
 
 
-        public ActionResult EditView()
+        //GET: Events/Create
+        public ActionResult Create()
         {
+            return View();
+        }
 
-            var events = this.eventService.GetAll();
-
-            var model = (IEnumerable<EventViewModel>)events.ProjectTo<EventViewModel>();
-
-            if (Session["Events"] != null)
+        //POST: Events/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,EventID,Name,OddsForFirstTeam,OddsForDraw,OddsForSecondTeam,StartDate,StartHasPassed,IsInEditMode")] EventViewModel eventViewModel)
+        {
+            if (ModelState.IsValid)
             {
-
-                return View((IEnumerable<EventViewModel>)Session["Events"]);
+                this.eventService.Add(eventViewModel.Name, eventViewModel.OddsForFirstTeam, eventViewModel.OddsForDraw, eventViewModel.OddsForSecondTeam, eventViewModel.StartDate.ToString());
+                return RedirectToAction("Preview");
             }
 
-
-            Session["Events"] = model;
-            return View(model);
-
-            //return this.View(model);
+            return View(eventViewModel);
         }
 
-        [HttpPost]
-        public JsonResult Edit(Guid id, string name, double oddsForFirstTeam, double oddsForDraw, double oddsForSecondTeam, string startDate)
+        // GET: Events/Edit/5
+        public ActionResult Edit(Guid? id)
         {
-            Event ev = this.eventService.GetById(id);
-            var model = mapper.Map<EventViewModel>(ev);
-            this.eventService.Update(id, name, oddsForFirstTeam, oddsForDraw, oddsForSecondTeam, startDate);
-            return Json(new JsonResult { Data = model }, JsonRequestBehavior.AllowGet);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var ev = this.eventService.GetById((Guid)id);
+            if (ev == null)
+            {
+                return HttpNotFound();
+            }
+            var eventViewModel = this.mapper.Map<EventViewModel>(ev);
+            return View(eventViewModel);
         }
 
+        // POST: Events/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,EventID,Name,OddsForFirstTeam,OddsForDraw,OddsForSecondTeam,StartDate,StartHasPassed,IsInEditMode")] EventViewModel eventViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                this.eventService.Update(eventViewModel.Id, eventViewModel.Name, eventViewModel.OddsForFirstTeam, eventViewModel.OddsForDraw, eventViewModel.OddsForSecondTeam, eventViewModel.StartDate.ToString());
+                return RedirectToAction("Preview");
+            }
+            return View(eventViewModel);
+        }
+
+        // GET: Events/Delete/5
+        public ActionResult Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var ev = this.eventService.GetById((Guid)id);
+            if (ev == null)
+            {
+                return HttpNotFound();
+            }
+            var eventViewModel = this.mapper.Map<EventViewModel>(ev);
+            return View(eventViewModel);
+        }
+
+        // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
-        public JsonResult DeleteConfirmed(Guid id)
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
         {
             this.eventService.DeleteById(id);
-            IEnumerable<EventViewModel> ev = (IEnumerable<EventViewModel>)Session["Persons"];
-            ev = ev.Where(p => p.Id != id).ToList();
-            Session["Events"] = ev;
-            bool result = true;
-            return Json(new JsonResult { }, JsonRequestBehavior.AllowGet);
-        }
 
+            return RedirectToAction("Preview");
+        }
 
     }
 }
